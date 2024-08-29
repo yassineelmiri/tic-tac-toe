@@ -1,4 +1,5 @@
 $ tic-tac-toe :
+![Screenshot 2024-08-29 114418](https://github.com/user-attachments/assets/bf44e93c-60f7-4f37-86c7-d9a1e7868d2b)
 
 ```markdown
 # Tic-Tac-Toe
