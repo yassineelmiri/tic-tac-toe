@@ -33,6 +33,21 @@ function startGame() {
     loadGameState();
 }
 
+function createGrid() {
+    const board = document.querySelector("#game-board");
+    board.innerHTML = '';
+    boxes = [];
+
+    for (let i = 0; i < gridSize * gridSize; i++) {
+        const box = document.createElement("div");
+        box.className = "box";
+        box.dataset.index = i;
+        box.addEventListener("click", handleBoxClick);
+        boxes.push(box);
+        board.appendChild(box);
+    }
+}
+
 function changeTurn() {
     if (turn === "X") {
         turn = "O";
