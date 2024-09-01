@@ -75,6 +75,14 @@ function checkWin() {
     }
 }
 
+function checkDirection(winLength, checkFn) {
+    for (let row = 0; row < gridSize; row++) {
+        for (let col = 0; col < gridSize - winLength + 1; col++) {
+            if (checkFn(row, col, winLength)) return true;
+        }
+    }
+    return false;
+}
 
 function checkDraw() {
     if (!isGameOver) {
