@@ -17,6 +17,22 @@ function init() {
     loadHistory();
 }
 
+function startGame() {
+    const playerXName = getPlayerName("#playerXName", "Player X");
+    const playerOName = getPlayerName("#playerOName", "Player O");
+
+    localStorage.setItem('playerXName', playerXName);
+    localStorage.setItem('playerOName', playerOName);
+
+    updateDisplayName("#playerXDisplayName", playerXName);
+    updateDisplayName("#playerODisplayName", playerOName);
+
+    toggleVisibility("#player-form", "#game-container");
+    createGrid();
+    loadScores();
+    loadGameState();
+}
+
 function changeTurn() {
     if (turn === "X") {
         turn = "O";
