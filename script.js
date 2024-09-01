@@ -1,19 +1,21 @@
-let boxes = document.querySelectorAll(".box");
-
+let boxes = [];
 let turn = "X";
 let isGameOver = false;
+let roundsPlayed = 0;
+const maxRounds = 5;
+const gridSize = 20;
 
-boxes.forEach(e => {
-    e.innerHTML = "";
-    e.addEventListener("click", () => {
-        if (!isGameOver && e.innerHTML === "") {
-            e.innerHTML = turn;
-            checkWin();
-            checkDraw();
-            changeTurn();
-        }
-    });
-});
+document.querySelector("#reset-game").addEventListener("click", resetGame);
+document.querySelector("#start-game").addEventListener("click", startGame);
+document.querySelector("#play-again").addEventListener("click", resetBoard);
+window.onload = init;
+
+
+function init() {
+    loadScores();
+    loadGameState();
+    loadHistory();
+}
 
 function changeTurn() {
     if (turn === "X") {
