@@ -48,6 +48,18 @@ function createGrid() {
     }
 }
 
+function handleBoxClick(event) {
+    const box = event.target;
+    if (!isGameOver && box.innerHTML === "") {
+        box.innerHTML = turn;
+        saveGameState();
+        checkWin();
+        checkDraw();
+        changeTurn();
+    }
+}
+
+
 function changeTurn() {
     if (turn === "X") {
         turn = "O";
