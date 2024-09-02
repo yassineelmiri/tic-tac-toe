@@ -66,6 +66,14 @@ function changeTurn() {
     saveGameState();
 }
 
+function markWin() {
+    document.querySelector("#results").innerText = `${turn} wins!`;
+    updateScore();
+    isGameOver = true;
+    document.querySelector("#play-again").style.display = "block";
+    saveGameState();
+}
+
 function checkWin() {
     const winLength = 5;
 
