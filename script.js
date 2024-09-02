@@ -84,6 +84,27 @@ function checkDirection(winLength, checkFn) {
     return false;
 }
 
+
+function checkHorizontal(row, col, winLength) {
+    return Array.from({ length: winLength }, (_, i) => boxes[row * gridSize + col + i])
+        .every(box => box.innerHTML === turn);
+}
+
+function checkVertical(row, col, winLength) {
+    return Array.from({ length: winLength }, (_, i) => boxes[(row + i) * gridSize + col])
+        .every(box => box.innerHTML === turn);
+}
+
+function checkDiagonalRight(row, col, winLength) {
+    return Array.from({ length: winLength }, (_, i) => boxes[(row + i) * gridSize + col + i])
+        .every(box => box.innerHTML === turn);
+}
+
+function checkDiagonalLeft(row, col, winLength) {
+    return Array.from({ length: winLength }, (_, i) => boxes[(row - i) * gridSize + col + i])
+        .every(box => box.innerHTML === turn);
+}
+
 function checkDraw() {
     if (!isGameOver) {
         let isDraw = true;
