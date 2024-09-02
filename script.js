@@ -151,3 +151,30 @@ function loadGameState() {
         if (isGameOver) document.querySelector("#play-again").style.display = "block";
     }
 }
+
+function saveHistory(playerXName, scoreX, playerOName, scoreO) {
+    const history = JSON.parse(localStorage.getItem('gameHistory')) || [];
+    history.push(`${playerXName} ${scoreX} - ${scoreO} ${playerOName}`);
+    localStorage.setItem('gameHistory', JSON.stringify(history));
+    loadHistory();
+}
+
+function loadHistory() {
+    const history = JSON.parse(localStorage.getItem('gameHistory')) || [];
+    const historyList = document.querySelector("#history-list");
+    historyList.innerHTML = history.map(record => `<li>${record}</li>`).join("");
+    document.querySelector("#game-history").style.display = history.length ? "block" : "none";
+}
+
+function getPlayerName(selector, defaultName) {
+    return document.querySelector(selector).value || defaultName;
+}
+
+function updateDisplayName(selector, name) {
+    document.querySelector(selector).innerText = name;
+}
+
+function toggleVisibility(hideSelector, showSelector) {
+    document.querySelector(hideSelector).style.display = "none";
+    document.querySelector(showSelector).style.display = "block";
+}
