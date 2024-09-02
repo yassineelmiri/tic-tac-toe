@@ -10,7 +10,6 @@ document.querySelector("#start-game").addEventListener("click", startGame);
 document.querySelector("#play-again").addEventListener("click", resetBoard);
 window.onload = init;
 
-
 function init() {
     loadScores();
     loadGameState();
@@ -59,18 +58,9 @@ function handleBoxClick(event) {
     }
 }
 
-
 function changeTurn() {
     turn = turn === "X" ? "O" : "X";
     document.querySelector(".bg").style.left = turn === "X" ? "0" : "85px";
-    saveGameState();
-}
-
-function markWin() {
-    document.querySelector("#results").innerText = `${turn} wins!`;
-    updateScore();
-    isGameOver = true;
-    document.querySelector("#play-again").style.display = "block";
     saveGameState();
 }
 
@@ -82,7 +72,6 @@ function checkWin() {
         markWin();
     }
 }
-
 function checkDirection(winLength, checkFn) {
     for (let row = 0; row < gridSize; row++) {
         for (let col = 0; col < gridSize - winLength + 1; col++) {
@@ -91,7 +80,6 @@ function checkDirection(winLength, checkFn) {
     }
     return false;
 }
-
 
 function checkHorizontal(row, col, winLength) {
     return Array.from({ length: winLength }, (_, i) => boxes[row * gridSize + col + i])
@@ -113,6 +101,14 @@ function checkDiagonalLeft(row, col, winLength) {
         .every(box => box.innerHTML === turn);
 }
 
+function markWin() {
+    document.querySelector("#results").innerText = `${turn} wins!`;
+    updateScore();
+    isGameOver = true;
+    document.querySelector("#play-again").style.display = "block";
+    saveGameState();
+}
+
 function checkDraw() {
     if (boxes.every(box => box.innerHTML !== "") && !isGameOver) {
         document.querySelector("#results").innerText = "It's a draw!";
@@ -130,17 +126,6 @@ function saveGameState() {
     localStorage.setItem('gameState', JSON.stringify(state));
 }
 
-document.querySelector("#play-again").addEventListener("click", () => {
-    isGameOver = false;
-    turn = "X";
-    document.querySelector(".bg").style.left = "0";
-
-    boxes.forEach(e => {
-        e.innerHTML = "";
-        e.style.removeProperty("background-color");
-    });
-});
-
 function loadGameState() {
     const state = JSON.parse(localStorage.getItem('gameState'));
     if (state) {
@@ -150,6 +135,57 @@ function loadGameState() {
         document.querySelector(".bg").style.left = turn === "X" ? "0" : "85px";
         if (isGameOver) document.querySelector("#play-again").style.display = "block";
     }
+}
+
+function updateScore() {
+    const scoreKey = turn === "X" ? 'scoreX' : 'scoreO';
+    const score = parseInt(localStorage.getItem(scoreKey)) || 0;
+    localStorage.setItem(scoreKey, score + 1);
+    document.querySelector(`#${scoreKey}`).innerText = score + 1;
+
+    roundsPlayed++;
+    if (roundsPlayed >= maxRounds) displayFinalResult();
+}
+
+function loadScores() {
+    document.querySelector("#scoreX").innerText = localStorage.getItem('scoreX') || 0;
+    document.querySelector("#scoreO").innerText = localStorage.getItem('scoreO') || 0;
+}
+
+function resetBoard() {
+    isGameOver = false;
+    boxes.forEach(box => {
+        box.innerHTML = "";
+        box.style.backgroundColor = "";
+    });
+    document.querySelector("#results").innerText = "";
+    document.querySelector("#play-again").style.display = "none";
+    saveGameState();
+}
+
+function resetGame() {
+    resetBoard();
+    localStorage.setItem('scoreX', 0);
+    localStorage.setItem('scoreO', 0);
+    roundsPlayed = 0;
+    loadScores();
+    document.querySelector("#final-result").style.display = "none";
+    localStorage.removeItem('gameHistory');
+    loadHistory();
+}
+
+function displayFinalResult() {
+    const playerXName = localStorage.getItem('playerXName') || "Player X";
+    const playerOName = localStorage.getItem('playerOName') || "Player O";
+    const scoreX = parseInt(localStorage.getItem('scoreX')) || 0;
+    const scoreO = parseInt(localStorage.getItem('scoreO')) || 0;
+
+    let finalMessage = `Game Over! Final Score: ${playerXName} ${scoreX} - ${scoreO} ${playerOName}. `;
+    finalMessage += scoreX > scoreO ? `${playerXName} wins!` : scoreX < scoreO ? `${playerOName} wins!` : "It's a tie!";
+    document.querySelector("#final-result").innerText = finalMessage;
+    document.querySelector("#final-result").style.display = "block";
+
+    saveHistory(playerXName, scoreX, playerOName, scoreO);
 }
 
 function saveHistory(playerXName, scoreX, playerOName, scoreO) {
