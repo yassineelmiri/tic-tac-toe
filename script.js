@@ -114,17 +114,10 @@ function checkDiagonalLeft(row, col, winLength) {
 }
 
 function checkDraw() {
-    if (!isGameOver) {
-        let isDraw = true;
-        boxes.forEach(e => {
-            if (e.innerHTML === "") isDraw = false;
-        });
-
-        if (isDraw) {
-            isGameOver = true;
-            document.querySelector("#results").innerHTML = "Draw";
-            document.querySelector("#play-again").style.display = "inline";
-        }
+    if (boxes.every(box => box.innerHTML !== "") && !isGameOver) {
+        document.querySelector("#results").innerText = "It's a draw!";
+        document.querySelector("#play-again").style.display = "block";
+        saveGameState();
     }
 }
 
