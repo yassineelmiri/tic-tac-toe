@@ -121,6 +121,14 @@ function checkDraw() {
     }
 }
 
+function saveGameState() {
+    const state = {
+        turn: turn,
+        boxes: boxes.map(box => box.innerHTML),
+        isGameOver: isGameOver
+    };
+    localStorage.setItem('gameState', JSON.stringify(state));
+}
 document.querySelector("#play-again").addEventListener("click", () => {
     isGameOver = false;
     turn = "X";
