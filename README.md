@@ -1,10 +1,5 @@
-$ tic-tac-toe :
 ![Screenshot 2024-09-02 115853](https://github.com/user-attachments/assets/7a0702a7-0b68-42a1-9dda-c0aa63cadfac)
-
-jeux :
 ![Screenshot 2024-09-02 115846](https://github.com/user-attachments/assets/133d3438-05dd-4b66-bed3-fd2218645672)
-
-
 ```markdown
 # Tic-Tac-Toe
 
