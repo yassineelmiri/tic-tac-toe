@@ -129,16 +129,25 @@ function saveGameState() {
     };
     localStorage.setItem('gameState', JSON.stringify(state));
 }
+
 document.querySelector("#play-again").addEventListener("click", () => {
     isGameOver = false;
     turn = "X";
     document.querySelector(".bg").style.left = "0";
-    document.querySelector("#results").innerHTML = "";
-    document.querySelector("#play-again").style.display = "none";
 
     boxes.forEach(e => {
         e.innerHTML = "";
         e.style.removeProperty("background-color");
-        e.style.color = "#fff";
     });
 });
+
+function loadGameState() {
+    const state = JSON.parse(localStorage.getItem('gameState'));
+    if (state) {
+        turn = state.turn;
+        isGameOver = state.isGameOver;
+        boxes.forEach((box, index) => box.innerHTML = state.boxes[index]);
+        document.querySelector(".bg").style.left = turn === "X" ? "0" : "85px";
+        if (isGameOver) document.querySelector("#play-again").style.display = "block";
+    }
+}
